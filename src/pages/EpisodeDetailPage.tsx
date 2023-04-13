@@ -1,81 +1,86 @@
 import { useEffect, useState } from "react";
-import { getLocalStorage, setLocalStorage } from "../helpers/localStorage";
+import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 import { PodcastDetail } from "../components/PodcastDetail";
 import { useParams } from "react-router-dom";
 import { EpisodeDetail } from "../components/EpisodeDetail";
 
+type Podcasts = {
+	feed: {
+		entry: [];
+	};
+};
+
+type Episodes = {
+	results: [
+		{
+			trackId: number;
+			trackName: string;
+			description: string;
+			previewUrl: string;
+		},
+	];
+};
+
 export const EpisodeDetailPage = () => {
-	const [podcasts, setPodcasts] = useState();
-	const [episodes, setEpisodes] = useState();
-	const [error, setError] = useState();
+	const [podcasts, setPodcasts] = useState<Podcasts>();
+	const [episodes, setEpisodes] = useState<Episodes>();
+	const [error, setError] = useState<unknown>();
 	const [loadingPodcasts, setLoadingPodcasts] = useState(true);
 	const [loadingEpisodes, setLoadingEpisodes] = useState(true);
 
 	const params = useParams();
 
 	useEffect(() => {
-		setLoadingPodcasts(true);
+		try {
+			if (getLocalStorage("podcasts")) {
+				setPodcasts(getLocalStorage("podcasts"));
+				setLoadingPodcasts(false);
+			} else {
+				fetch(
+					`https://api.allorigins.win/raw?url=${encodeURIComponent(
+						"https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
+					)}`,
+				)
+					.then((response) => {
+						if (response.ok) return response.json();
+						throw new Error("Network response was not ok.");
+					})
+					.then((data) => {
+						setPodcasts(data);
+						setLocalStorage("podcasts", data, 86400000);
+					})
+					.finally(() => setLoadingPodcasts(false));
+			}
 
-		if (getLocalStorage("podcasts")) {
-			setPodcasts(getLocalStorage("podcasts"));
-			setLoadingPodcasts(false);
-		} else {
-			fetch(
-				`https://api.allorigins.win/raw?url=${encodeURIComponent(
-					"https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
-				)}`,
-			)
-				.then((response) => {
-					if (response.ok) return response.json();
-					throw new Error("Network response was not ok.");
-				})
-				.then((data) => {
-					setPodcasts(data);
-					setLocalStorage("podcasts", data, 86400000);
-				})
-				.catch((e) => {
-					console.log(e);
-					setError(e);
-				})
-				.finally(() => setLoadingPodcasts(false));
-		}
-	}, []);
-
-	useEffect(() => {
-		setLoadingEpisodes(true);
-
-		if (getLocalStorage(`podcastDetail${params.podcastId}`)) {
-			setEpisodes(getLocalStorage(`podcastDetail${params.podcastId}`));
+			if (getLocalStorage(`podcastDetail${params.podcastId}`)) {
+				setEpisodes(getLocalStorage(`podcastDetail${params.podcastId}`));
+				setLoadingEpisodes(false);
+			} else {
+				fetch(
+					`https://api.allorigins.win/raw?url=${encodeURIComponent(
+						`https://itunes.apple.com/lookup?id=${params.podcastId}&media=podcast&entity=podcastEpisode`,
+					)}`,
+				)
+					.then((response) => {
+						if (response.ok) return response.json();
+						throw new Error("Network response was not ok.");
+					})
+					.then((data) => {
+						setEpisodes(data);
+						setLocalStorage(`podcastDetail${params.podcastId}`, data, 86400000);
+					})
+					.finally(() => setLoadingEpisodes(false));
+			}
+		} catch (e) {
+			setError(e);
+			console.log(e);
 			setLoadingEpisodes(false);
-		} else {
-			fetch(
-				`https://api.allorigins.win/raw?url=${encodeURIComponent(
-					`https://itunes.apple.com/lookup?id=${params.podcastId}&media=podcast&entity=podcastEpisode`,
-				)}`,
-			)
-				.then((response) => {
-					if (response.ok) return response.json();
-					throw new Error("Network response was not ok.");
-				})
-				.then((data) => {
-					setEpisodes(data);
-					setLocalStorage(`podcastDetail${params.podcastId}`, data, 86400000);
-				})
-				.catch((e) => {
-					console.log(e);
-					setError(e);
-				})
-				.finally(() => setLoadingEpisodes(false));
+			setLoadingPodcasts(false);
 		}
 	}, []);
 
 	if (error) {
-		return (
-			<>
-				<div className="grid text-5xl place-items-center">ERROR</div>;
-				<pre className="grid mt-5 place-items-center">{error}</pre>
-			</>
-		);
+		return <div className="grid text-5xl place-items-center">ERROR</div>;
 	}
 	return (
 		<>
@@ -87,7 +92,7 @@ export const EpisodeDetailPage = () => {
 						<PodcastDetail data={podcasts?.feed.entry} id={params.podcastId} />
 					)}
 				</div>
-				<div className="grid pl-5 text-2xl shadow-xl">
+				<div className="grid p-6 pl-5 text-2xl shadow-xl h-fit">
 					{loadingEpisodes ? (
 						<p>LOADING...</p>
 					) : (

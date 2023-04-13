@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
-import { getLocalStorage, setLocalStorage } from "../helpers/localStorage";
+import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 import { Podcast } from "../components/Podcast";
 
+type Props = {
+	feed: {
+		entry: [];
+	};
+};
+
 export const HomePage = () => {
-	const [podcasts, setPodcasts] = useState();
-	const [error, setError] = useState();
+	const [podcasts, setPodcasts] = useState<Props>();
+	const [error, setError] = useState<unknown>();
 	const [loading, setLoading] = useState(true);
 	const [query, setQuery] = useState("");
 
-	const search = (podcasts) => {
-		return podcasts.filter(
-			(podcasts) =>
+	const search = (podcasts: any) => {
+		return podcasts?.filter(
+			(podcasts: any) =>
 				podcasts["im:artist"].label.toLowerCase().includes(query) ||
 				podcasts.title.label.toLowerCase().includes(query),
 		);
 	};
 
 	useEffect(() => {
-		setLoading(true);
-
 		if (getLocalStorage("podcasts")) {
 			setPodcasts(getLocalStorage("podcasts"));
 			setLoading(false);
@@ -48,12 +52,7 @@ export const HomePage = () => {
 		return <div className="grid text-5xl place-items-center">LOADING...</div>;
 	}
 	if (error) {
-		return (
-			<>
-				<div className="grid text-5xl place-items-center">ERROR</div>;
-				<pre className="grid mt-5 place-items-center">{error}</pre>
-			</>
-		);
+		return <div className="grid text-5xl place-items-center">ERROR</div>;
 	}
 
 	return (
@@ -72,7 +71,7 @@ export const HomePage = () => {
 			</div>
 
 			<div className="grid grid-cols-4 gap-10 mx-10 mt-60 place-items-center">
-				{search(podcasts?.feed.entry).map((podcasts, idx) => (
+				{search(podcasts?.feed.entry).map((podcasts: any, idx: number) => (
 					<Podcast key={idx} podcasts={podcasts} />
 				))}
 			</div>

@@ -1,5 +1,5 @@
-export const PodcastDetail = ({ data, id }) => {
-	const podcast = data.find((element) =>
+export const PodcastDetail = ({ data, id }: {data: any, id: string | undefined}) => {
+	const podcast = data.find((element: any) =>
 		element.id.attributes["im:id"].includes(id),
 	);
 
