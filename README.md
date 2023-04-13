@@ -1,1 +1,1 @@
-![](https://github.com/alvaro17f/podcaster/README/podcaster.gif)
+![](https://github.com/alvaro17f/podcaster/blob/main/public/README/podcaster.gif)
