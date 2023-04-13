@@ -2,25 +2,25 @@ import { useEffect, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "../helpers/localStorage";
 import { Podcast } from "../components/Podcast";
 
-export const Home = () => {
-	const [data, setData] = useState();
+export const HomePage = () => {
+	const [podcasts, setPodcasts] = useState();
 	const [error, setError] = useState();
 	const [loading, setLoading] = useState(true);
 	const [query, setQuery] = useState("");
 
-	const search = (data) => {
-		return data.filter(
-			(data) =>
-				data["im:artist"].label.toLowerCase().includes(query) ||
-				data.title.label.toLowerCase().includes(query),
+	const search = (podcasts) => {
+		return podcasts.filter(
+			(podcasts) =>
+				podcasts["im:artist"].label.toLowerCase().includes(query) ||
+				podcasts.title.label.toLowerCase().includes(query),
 		);
 	};
 
 	useEffect(() => {
 		setLoading(true);
 
-		if (getLocalStorage("data")) {
-			setData(getLocalStorage("data"));
+		if (getLocalStorage("podcasts")) {
+			setPodcasts(getLocalStorage("podcasts"));
 			setLoading(false);
 		} else {
 			fetch(
@@ -32,9 +32,9 @@ export const Home = () => {
 					if (response.ok) return response.json();
 					throw new Error("Network response was not ok.");
 				})
-				.then((data) => {
-					setData(data);
-					setLocalStorage("data", data, 86400000);
+				.then((podcasts) => {
+					setPodcasts(podcasts);
+					setLocalStorage("podcasts", podcasts, 86400000);
 				})
 				.catch((e) => {
 					console.log(e);
@@ -60,7 +60,7 @@ export const Home = () => {
 		<>
 			<div className="flex justify-end gap-3 pt-5 pr-5 flex-nowrap">
 				<div className="p-2 text-3xl text-white bg-blue-400 rounded-xl">
-					{data?.feed.entry.length}
+					{podcasts?.feed.entry.length}
 				</div>
 				<input
 					type="search"
@@ -72,8 +72,8 @@ export const Home = () => {
 			</div>
 
 			<div className="grid grid-cols-4 gap-10 mx-10 mt-60 place-items-center">
-				{search(data?.feed.entry).map((data, idx) => (
-					<Podcast key={idx} data={data} />
+				{search(podcasts?.feed.entry).map((podcasts, idx) => (
+					<Podcast key={idx} podcasts={podcasts} />
 				))}
 			</div>
 		</>
