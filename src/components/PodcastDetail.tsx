@@ -11,10 +11,10 @@ export const PodcastDetail = ({ data, id }) => {
 				className="place-self-center"
 			/>
 			<div className="mt-5 mb-2 border-b place-self-center border-gray-300 w-[80%]" />
-			<p className="ml-6 font-bold">{podcast.title.label}</p>
-			<p className="ml-6 italic">{podcast["im:artist"].label}</p>
+			<p className="mx-6 font-bold">{podcast.title.label}</p>
+			<p className="mx-6 italic">{podcast["im:artist"].label}</p>
 			<div className="my-3 place-self-center border-b border-gray-300 w-[80%]" />
-			<p className="ml-6 text-sm font-bold">Description:</p>
+			<p className="mx-6 text-sm font-bold">Description:</p>
 			<p className="mx-6 mb-5 text-sm text-justify">{podcast.summary.label}</p>
 		</div>
 	);
