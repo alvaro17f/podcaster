@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export const Podcast = ({ podcasts }: { podcasts: any}) => {
 	return (
 		<Link
-			to={`/podcast/${podcasts?.id.attributes["im:id"]}`}
+			to={`/podcast/${podcasts.id.attributes["im:id"]}`}
 			className="relative grid w-full h-40 p-5 mb-56 rounded-lg shadow-md place-items-center"
 		>
 			<img
