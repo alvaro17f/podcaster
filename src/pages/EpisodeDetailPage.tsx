@@ -1,33 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 import { PodcastDetail } from "../components/PodcastDetail";
 import { useParams } from "react-router-dom";
 import { EpisodeDetail } from "../components/EpisodeDetail";
 
-type Podcasts = {
-  feed: {
-    entry: [];
-  };
-};
-
-type Episodes = {
-  results: [];
-};
+enum EDP {
+  SET_PODCASTS = "SET_PODCASTS",
+  SET_EPISODES = "SET_EPISODES",
+  SET_ERROR = "SET_ERROR",
+}
 
 export const EpisodeDetailPage = () => {
-  const [podcasts, setPodcasts] = useState<Podcasts>();
-  const [episodes, setEpisodes] = useState<Episodes>();
-  const [error, setError] = useState<unknown>();
-  const [loadingPodcasts, setLoadingPodcasts] = useState(true);
-  const [loadingEpisodes, setLoadingEpisodes] = useState(true);
+  const initialState = {
+    podcasts: null,
+    episodes: null,
+    error: null,
+    loadingPodcasts: true,
+    loadingEpisodes: true,
+  };
+
+  const reducer = (state: any, action: { type: any; payload: any }) => {
+    switch (action.type) {
+      case EDP.SET_PODCASTS:
+        return { ...state, podcasts: action.payload, loadingPodcasts: false };
+      case EDP.SET_EPISODES:
+        return { ...state, episodes: action.payload, loadingEpisodes: false };
+      case EDP.SET_ERROR:
+        return {
+          ...state,
+          error: action.payload,
+          loadingPodcasts: false,
+          loadingEpisodes: false,
+        };
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const params = useParams();
 
   useEffect(() => {
     try {
       if (getLocalStorage("podcasts")) {
-        setPodcasts(getLocalStorage("podcasts"));
-        setLoadingPodcasts(false);
+        dispatch({
+          type: EDP.SET_PODCASTS,
+          payload: getLocalStorage("podcasts"),
+        });
       } else {
         fetch(
           `https://api.allorigins.win/raw?url=${encodeURIComponent(
@@ -39,15 +59,16 @@ export const EpisodeDetailPage = () => {
             throw new Error("Network response was not ok.");
           })
           .then((data) => {
-            setPodcasts(data);
+            dispatch({ type: EDP.SET_PODCASTS, payload: data });
             setLocalStorage("podcasts", data, 86400000);
-          })
-          .finally(() => setLoadingPodcasts(false));
+          });
       }
 
       if (getLocalStorage(`podcastDetail${params.podcastId}`)) {
-        setEpisodes(getLocalStorage(`podcastDetail${params.podcastId}`));
-        setLoadingEpisodes(false);
+        dispatch({
+          type: EDP.SET_EPISODES,
+          payload: getLocalStorage(`podcastDetail${params.podcastId}`),
+        });
       } else {
         fetch(
           `https://api.allorigins.win/raw?url=${encodeURIComponent(
@@ -59,37 +80,43 @@ export const EpisodeDetailPage = () => {
             throw new Error("Network response was not ok.");
           })
           .then((data) => {
-            setEpisodes(data);
+            dispatch({ type: EDP.SET_EPISODES, payload: data });
             setLocalStorage(`podcastDetail${params.podcastId}`, data, 86400000);
-          })
-          .finally(() => setLoadingEpisodes(false));
+          });
       }
     } catch (e) {
-      setError(e);
+      dispatch({
+        type: EDP.SET_ERROR,
+        payload: e,
+      });
       console.log(e);
-      setLoadingEpisodes(false);
-      setLoadingPodcasts(false);
     }
   }, []);
 
-  if (error) {
+  if (state.error) {
     return <div className="grid text-5xl place-items-center">ERROR</div>;
   }
   return (
     <>
       <section className="grid grid-cols-[1fr_3fr] gap-20 m-5">
         <div className="shadow-xl span-2">
-          {loadingPodcasts ? (
+          {state.loadingPodcasts ? (
             <p>LOADING...</p>
           ) : (
-            <PodcastDetail data={podcasts?.feed.entry} id={params.podcastId} />
+            <PodcastDetail
+              data={state.podcasts?.feed.entry}
+              id={params.podcastId}
+            />
           )}
         </div>
         <div className="grid p-6 pl-5 text-2xl shadow-xl h-fit">
-          {loadingEpisodes ? (
+          {state.loadingEpisodes ? (
             <p>LOADING...</p>
           ) : (
-            <EpisodeDetail data={episodes?.results} id={params.episodeId} />
+            <EpisodeDetail
+              data={state.episodes?.results}
+              id={params.episodeId}
+            />
           )}
         </div>
       </section>
