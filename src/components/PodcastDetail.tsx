@@ -30,7 +30,7 @@ export const PodcastDetail = ({ data, id }: Props) => {
     <div className="grid grid-cols-1">
       <img
         src={podcast?.["im:image"][2].label}
-        alt={`${podcast?.title.label} picture`}
+        alt={`${podcast?.title.label ?? "Podcast detail"} picture`}
         className="place-self-center"
       />
       <div className="mt-5 mb-2 border-b place-self-center border-gray-300 w-[80%]" />

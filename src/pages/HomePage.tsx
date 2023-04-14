@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 import { Podcast } from "../components/Podcast";
+import { awesomeReducer } from "../hooks/awesomeReducer";
+import { useFetch } from "../hooks/useFetch";
 
-type Podcasts = {
-  feed: {
-    entry: any;
-  };
-};
 
 type Props = {
   "im:image": {
@@ -26,9 +23,7 @@ type Props = {
 }[];
 
 export const HomePage = () => {
-  const [podcasts, setPodcasts] = useState<Podcasts>();
-  const [error, setError] = useState<unknown>();
-  const [loading, setLoading] = useState(true);
+  const { ENUMS, dispatch, state } = awesomeReducer()
   const [query, setQuery] = useState("");
 
   const search = (podcasts: Props) => {
@@ -39,44 +34,36 @@ export const HomePage = () => {
     );
   };
 
+  const { data: podcastData, setShouldFetch } = useFetch(
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(
+      "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
+    )}`,
+  );
+
   useEffect(() => {
     if (getLocalStorage("podcasts")) {
-      setPodcasts(getLocalStorage("podcasts"));
-      setLoading(false);
+      dispatch({ type: ENUMS.SET_PODCASTS, payload: getLocalStorage("podcasts") });
     } else {
-      fetch(
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(
-          "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
-        )}`,
-      )
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error("Network response was not ok.");
-        })
-        .then((podcasts) => {
-          setPodcasts(podcasts);
-          setLocalStorage("podcasts", podcasts, 86400000);
-        })
-        .catch((e) => {
-          console.log(e);
-          setError(e);
-        })
-        .finally(() => setLoading(false));
+      setShouldFetch(true);
+      podcastData && (
+        dispatch({ type: ENUMS.SET_PODCASTS, payload: podcastData }),
+        setLocalStorage("podcasts", podcastData, 86400000))
     }
-  }, []);
+  }, [podcastData]);
 
-  if (loading) {
+
+  if (state.loadingPodcasts) {
     return <div className="grid text-5xl place-items-center">LOADING...</div>;
   }
-  if (error) {
+  if (state.error) {
     return <div className="grid text-5xl place-items-center">ERROR</div>;
   }
 
   return (
-    <>
+    <section>
       <div className="flex justify-end gap-3 pt-5 pr-5 flex-nowrap">
         <div className="p-2 text-3xl text-white bg-blue-400 rounded-xl">
-          {podcasts?.feed.entry.length}
+          {state.podcasts?.feed.entry.length}
         </div>
         <input
           type="search"
@@ -88,10 +75,10 @@ export const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-4 gap-10 mx-10 mt-60 place-items-center">
-        {search(podcasts?.feed.entry).map((podcasts, idx) => (
+        {search(state.podcasts?.feed.entry)?.map((podcasts, idx) => (
           <Podcast key={idx} podcasts={podcasts} />
         ))}
       </div>
-    </>
+    </section>
   );
 };

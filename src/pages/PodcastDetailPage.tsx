@@ -3,100 +3,94 @@ import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 import { PodcastDetail } from "../components/PodcastDetail";
 import { useParams } from "react-router-dom";
 import { Table } from "../components/Table";
-
-type Podcasts = {
-  feed: {
-    entry: [];
-  };
-};
-type Episodes = {
-  results: [];
-};
+import { useFetch } from "../hooks/useFetch";
+import { awesomeReducer } from "../hooks/awesomeReducer";
 
 export const PodcastDetailPage = () => {
-  const [podcasts, setPodcasts] = useState<Podcasts>();
-  const [episodes, setEpisodes] = useState<Episodes>();
-  const [error, setError] = useState<unknown>();
-  const [loadingPodcasts, setLoadingPodcasts] = useState(true);
-  const [loadingEpisodes, setLoadingEpisodes] = useState(true);
-
+  const { ENUMS, dispatch, state } = awesomeReducer();
   const params = useParams();
+
+  const { data: podcastData, setShouldFetch: fetchPodcasts } = useFetch(
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(
+      "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
+    )}`,
+  );
+
+  const { data: episodeData, setShouldFetch: fetchEpisodes } = useFetch(
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(
+      `https://itunes.apple.com/lookup?id=${params.podcastId}&media=podcast&entity=podcastEpisode`,
+    )}`,
+  );
 
   useEffect(() => {
     try {
       if (getLocalStorage("podcasts")) {
-        setPodcasts(getLocalStorage("podcasts"));
-        setLoadingPodcasts(false);
+        dispatch({
+          type: ENUMS.SET_PODCASTS,
+          payload: getLocalStorage("podcasts"),
+        });
       } else {
-        fetch(
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
-          )}`,
+        fetchPodcasts(true);
+        podcastData && (
+          dispatch({ type: ENUMS.SET_PODCASTS, payload: podcastData }),
+          setLocalStorage("podcasts", podcastData, 86400000)
         )
-          .then((response) => {
-            if (response.ok) return response.json();
-            throw new Error("Network response was not ok.");
-          })
-          .then((data) => {
-            setPodcasts(data);
-            setLocalStorage("podcasts", data, 86400000);
-          })
-          .finally(() => setLoadingPodcasts(false));
       }
 
       if (getLocalStorage(`podcastDetail${params.podcastId}`)) {
-        setEpisodes(getLocalStorage(`podcastDetail${params.podcastId}`));
-        setLoadingEpisodes(false);
+        dispatch({
+          type: ENUMS.SET_EPISODES,
+          payload: getLocalStorage(`podcastDetail${params.podcastId}`),
+        });
       } else {
-        fetch(
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            `https://itunes.apple.com/lookup?id=${params.podcastId}&media=podcast&entity=podcastEpisode`,
-          )}`,
-        )
-          .then((response) => {
-            if (response.ok) return response.json();
-            throw new Error("Network response was not ok.");
-          })
-          .then((data) => {
-            setEpisodes(data);
-            setLocalStorage(`podcastDetail${params.podcastId}`, data, 86400000);
-          })
-          .finally(() => setLoadingEpisodes(false));
+        fetchEpisodes(true);
+        episodeData && (
+          dispatch({ type: ENUMS.SET_EPISODES, payload: episodeData }),
+          setLocalStorage(
+            `podcastDetail${params.podcastId}`,
+            episodeData,
+            86400000,
+          )
+        );
       }
     } catch (e) {
-      setError(e);
+      dispatch({
+        type: ENUMS.SET_ERROR,
+        payload: e,
+      });
       console.log(e);
-      setLoadingEpisodes(false);
-      setLoadingPodcasts(false);
     }
-  }, []);
+  }, [podcastData, episodeData]);
 
-  if (error) {
+  if (state.error) {
     return <div className="grid text-5xl place-items-center">ERROR</div>;
   }
   return (
     <section className="grid grid-cols-[1fr_3fr] gap-20 m-5">
       <div className="shadow-xl h-fit">
-        {loadingPodcasts ? (
+        {state.loadingPodcasts ? (
           <p>LOADING...</p>
         ) : (
-          <PodcastDetail data={podcasts?.feed.entry} id={params.podcastId} />
+          <PodcastDetail
+            data={state.podcasts?.feed.entry}
+            id={params.podcastId}
+          />
         )}
       </div>
       <div>
         <div className="flex items-center h-16 pl-5 text-2xl font-bold shadow-xl">
-          {loadingEpisodes ? (
+          {state.loadingEpisodes ? (
             <p>LOADING...</p>
           ) : (
-            <p>EPISODES: {episodes?.results.length}</p>
+            <p>EPISODES: {state.episodes?.results.length}</p>
           )}
         </div>
 
         <div className="text-2xl shadow-xl p-7">
-          {loadingEpisodes ? (
+          {state.loadingEpisodes ? (
             <p>LOADING...</p>
           ) : (
-            <Table data={episodes?.results} id={params.podcastId} />
+            <Table data={state.episodes?.results} id={params.podcastId} />
           )}
         </div>
       </div>
