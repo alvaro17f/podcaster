@@ -1,15 +1,13 @@
 import { ParseContent } from "../utils/purify";
 
 type Props = {
-	data: [
-		{
-			trackId: number;
-			trackName: string;
-			description: string;
-			previewUrl: string;
-		},
-	] | undefined;
-	id: string | undefined;
+	data?: {
+		trackId: number;
+		trackName: string;
+		description: string;
+		previewUrl: string;
+	}[];
+	id?: string;
 };
 
 export const EpisodeDetail = ({ data, id }: Props) => {

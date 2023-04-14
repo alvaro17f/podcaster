@@ -2,21 +2,38 @@ import { useEffect, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 import { Podcast } from "../components/Podcast";
 
-type Props = {
+type Podcasts = {
 	feed: {
-		entry: [];
+		entry: any;
 	};
 };
 
+type Props = {
+	"im:image": {
+		label: string;
+	}[];
+	"im:artist": {
+		label: string;
+	};
+	id: {
+		attributes: {
+			"im:id": string;
+		};
+	};
+	title: {
+		label: string;
+	};
+}[];
+
 export const HomePage = () => {
-	const [podcasts, setPodcasts] = useState<Props>();
+	const [podcasts, setPodcasts] = useState<Podcasts>();
 	const [error, setError] = useState<unknown>();
 	const [loading, setLoading] = useState(true);
 	const [query, setQuery] = useState("");
 
-	const search = (podcasts: any) => {
+	const search = (podcasts: Props) => {
 		return podcasts?.filter(
-			(podcasts: any) =>
+			(podcasts) =>
 				podcasts["im:artist"].label.toLowerCase().includes(query) ||
 				podcasts.title.label.toLowerCase().includes(query),
 		);
@@ -71,7 +88,7 @@ export const HomePage = () => {
 			</div>
 
 			<div className="grid grid-cols-4 gap-10 mx-10 mt-60 place-items-center">
-				{search(podcasts?.feed.entry).map((podcasts: any, idx: number) => (
+				{search(podcasts?.feed.entry).map((podcasts, idx) => (
 					<Podcast key={idx} podcasts={podcasts} />
 				))}
 			</div>

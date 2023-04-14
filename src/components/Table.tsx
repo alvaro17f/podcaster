@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import { millisFormat } from "../utils/millisFormat";
 
-export const Table = ({ data, id }: {data: any, id: string | undefined}) => {
+type Props = {
+	data?: {
+		trackId: string;
+		trackName: string;
+		releaseDate: string;
+		trackTimeMillis: number;
+	}[];
+	id?: string;
+};
+
+export const Table = ({ data, id }: Props) => {
 	return (
 		<table className="w-full">
 			<thead>
@@ -12,7 +22,7 @@ export const Table = ({ data, id }: {data: any, id: string | undefined}) => {
 				</tr>
 			</thead>
 			<tbody className="text-sm">
-				{data.map((episode: any, idx: number) => (
+				{data?.map((episode, idx) => (
 					<tr key={idx} className="h-10 border-b-2 odd:bg-gray-100">
 						<td>
 							<Link

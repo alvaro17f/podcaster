@@ -4,9 +4,18 @@ import { PodcastDetail } from "../components/PodcastDetail";
 import { useParams } from "react-router-dom";
 import { Table } from "../components/Table";
 
+type Podcasts = {
+	feed: {
+		entry: [];
+	};
+};
+type Episodes = {
+	results: [];
+};
+
 export const PodcastDetailPage = () => {
-	const [podcasts, setPodcasts] = useState<any>();
-	const [episodes, setEpisodes] = useState<any>();
+	const [podcasts, setPodcasts] = useState<Podcasts>();
+	const [episodes, setEpisodes] = useState<Episodes>();
 	const [error, setError] = useState<unknown>();
 	const [loadingPodcasts, setLoadingPodcasts] = useState(true);
 	const [loadingEpisodes, setLoadingEpisodes] = useState(true);

@@ -11,14 +11,7 @@ type Podcasts = {
 };
 
 type Episodes = {
-	results: [
-		{
-			trackId: number;
-			trackName: string;
-			description: string;
-			previewUrl: string;
-		},
-	];
+	results: [];
 };
 
 export const EpisodeDetailPage = () => {
