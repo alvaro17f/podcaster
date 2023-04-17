@@ -4,7 +4,7 @@
 :star: Star me up — it motivates a lot!
 <br/>
 
-![](https://github.com/alvaro17f/podcaster/blob/main/public/README/podcaster.gif)
+![](https://github.com/alvaro17f/podcaster/blob/main/public/podcaster.gif)
 
 ## Table of contents[![](https://raw.githubusercontent.com/aregtech/areg-sdk/master/docs/img/pin.svg)](#table-of-contents)
 - [Podcaster APP](#podcaster-app)
@@ -40,11 +40,9 @@ pnpm build && pnpm preview --open
 .
 ├── public
 └── src
-    ├── assets
     ├── components
     ├── hooks
     ├── layout
-    ├── mocks
     ├── pages
     ├── router
     └── utils
