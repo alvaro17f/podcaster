@@ -39,7 +39,7 @@ pnpm build && pnpm preview --open
 ```
 
 ## Testing
-![](https://github.com/alvaro17f/podcaster/blob/main/public/coverage.gif)
+![](https://github.com/alvaro17f/podcaster/blob/main/public/coverage.png)
 
 ### Run tests!
 ```sh
