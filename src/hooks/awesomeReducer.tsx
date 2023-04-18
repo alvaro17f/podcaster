@@ -15,7 +15,7 @@ export const awesomeReducer = () => {
     loadingEpisodes: true,
   };
 
-  const reducer = (state: any, action: { type: any; payload: any }) => {
+  const reducer = (state: {}, action: { type: string; payload: {} }) => {
     switch (action.type) {
       case ENUMS.SET_PODCASTS:
         return { ...state, podcasts: action.payload, loadingPodcasts: false };
@@ -33,7 +33,7 @@ export const awesomeReducer = () => {
     }
   };
 
-  const [state, dispatch] = useReducer(reducer, {} = initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return {
     state,
