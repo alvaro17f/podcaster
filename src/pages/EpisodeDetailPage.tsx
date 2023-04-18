@@ -32,9 +32,9 @@ export const EpisodeDetailPage = () => {
         });
       } else {
         fetchPodcasts(true);
-        podcastData && (
-          dispatch({ type: ENUMS.SET_PODCASTS, payload: podcastData }),
-          setLocalStorage("podcasts", podcastData, 86400000))
+        podcastData &&
+          (dispatch({ type: ENUMS.SET_PODCASTS, payload: podcastData }),
+          setLocalStorage("podcasts", podcastData, 86400000));
       }
 
       if (getLocalStorage(`podcastDetail${params.podcastId}`)) {
@@ -44,8 +44,8 @@ export const EpisodeDetailPage = () => {
         });
       } else {
         fetchEpisodes(true);
-        episodeData && (
-          dispatch({ type: ENUMS.SET_EPISODES, payload: episodeData }),
+        episodeData &&
+          (dispatch({ type: ENUMS.SET_EPISODES, payload: episodeData }),
           setLocalStorage(
             `podcastDetail${params.podcastId}`,
             episodeData,
@@ -80,10 +80,7 @@ export const EpisodeDetailPage = () => {
         {state.loadingEpisodes ? (
           <p>LOADING...</p>
         ) : (
-          <EpisodeDetail
-            data={state.episodes?.results}
-            id={params.episodeId}
-          />
+          <EpisodeDetail data={state.episodes?.results} id={params.episodeId} />
         )}
       </div>
     </section>

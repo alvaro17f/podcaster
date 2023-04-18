@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<HomePage /> > should match the snapshot 1`] = `
+<div>
+  <div
+    class="grid text-5xl place-items-center"
+  >
+    LOADING...
+  </div>
+</div>
+`;

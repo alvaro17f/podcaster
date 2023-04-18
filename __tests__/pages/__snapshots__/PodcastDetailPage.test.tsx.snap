@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<PodcastDetailPage /> > should match the snapshot 1`] = `
+<div>
+  <section
+    class="grid grid-cols-[1fr_3fr] gap-20 m-5"
+  >
+    <div
+      class="shadow-xl h-fit"
+    >
+      <p>
+        LOADING...
+      </p>
+    </div>
+    <div>
+      <div
+        class="flex items-center h-16 pl-5 text-2xl font-bold shadow-xl"
+      >
+        <p>
+          LOADING...
+        </p>
+      </div>
+      <div
+        class="text-2xl shadow-xl p-7"
+      >
+        <p>
+          LOADING...
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+`;

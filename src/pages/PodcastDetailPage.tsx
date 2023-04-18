@@ -31,10 +31,9 @@ export const PodcastDetailPage = () => {
         });
       } else {
         fetchPodcasts(true);
-        podcastData && (
-          dispatch({ type: ENUMS.SET_PODCASTS, payload: podcastData }),
-          setLocalStorage("podcasts", podcastData, 86400000)
-        )
+        podcastData &&
+          (dispatch({ type: ENUMS.SET_PODCASTS, payload: podcastData }),
+          setLocalStorage("podcasts", podcastData, 86400000));
       }
 
       if (getLocalStorage(`podcastDetail${params.podcastId}`)) {
@@ -44,14 +43,13 @@ export const PodcastDetailPage = () => {
         });
       } else {
         fetchEpisodes(true);
-        episodeData && (
-          dispatch({ type: ENUMS.SET_EPISODES, payload: episodeData }),
+        episodeData &&
+          (dispatch({ type: ENUMS.SET_EPISODES, payload: episodeData }),
           setLocalStorage(
             `podcastDetail${params.podcastId}`,
             episodeData,
             86400000,
-          )
-        );
+          ));
       }
     } catch (e) {
       dispatch({

@@ -24,6 +24,7 @@ export const EpisodeDetail = ({ data, id }: Props) => {
         className="w-[90%] place-self-center"
         controls
         src={episode?.previewUrl}
+        aria-label="audio-player"
       />
     </div>
   );
