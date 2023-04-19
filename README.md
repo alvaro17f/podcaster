@@ -1,10 +1,9 @@
 # Podcaster APP
 > INDITEX project
 
-:star: Star me up!
-<br/>
-
 ![](https://github.com/alvaro17f/podcaster/blob/main/public/podcaster.gif)
+
+:star: Star me up!
 
 ## Table of contents[![](https://raw.githubusercontent.com/aregtech/areg-sdk/master/docs/img/pin.svg)](#table-of-contents)
 - [Podcaster APP](#podcaster-app)
