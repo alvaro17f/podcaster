@@ -1,7 +1,7 @@
 # Podcaster APP
 > INDITEX project
 
-:star: Star me up — it motivates a lot!
+:star: Star me up!
 <br/>
 
 ![](https://github.com/alvaro17f/podcaster/blob/main/public/podcaster.gif)
@@ -31,7 +31,7 @@ pnpm install
 ### Step 2: Choose your flavour!
 - Development mode:
 ```sh
-pnpm dev
+pnpm dev --open
 ```
 - Production mode:
 ```sh
