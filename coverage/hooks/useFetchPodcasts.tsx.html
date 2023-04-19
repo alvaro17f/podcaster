@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/PodcastDetail.tsx</title>
+    <title>Code coverage report for hooks/useFetchPodcasts.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">components</a> PodcastDetail.tsx</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">hooks</a> useFetchPodcasts.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">86.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>44/44</span>
+                <span class='fraction'>38/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">86.36% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>44/44</span>
+                <span class='fraction'>38/44</span>
             </div>
         
             
@@ -112,88 +112,88 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">type Props = {
-  data?: {
-    id: {
-      attributes: {
-        "im:id": string;
-      };
-    };
-    "im:image": {
-      label: string;
-    }[];
-    "im:artist": {
-      label: string;
-    };
-    title: {
-      label: string;
-    };
-    summary: {
-      label: string;
-    };
-  }[];
-  id?: string;
-};
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect } from "react";
+import { awesomeReducer } from "./awesomeReducer";
+import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
 &nbsp;
-export const PodcastDetail = ({ data, id }: Props) =&gt; {
-  const podcast = data?.find(
-    (element) =&gt; element.id.attributes["im:id"] === id,
-  );
+export const useFetchPodcasts = () =&gt; {
+  const { ENUMS, dispatch, state } = awesomeReducer();
 &nbsp;
-  return (
-    &lt;div className="grid grid-cols-1"&gt;
-      &lt;img
-        src={podcast?.["im:image"][2].label}
-        alt={`${podcast?.title.<span class="branch-0 cbranch-no" title="branch not covered" >label ?? "Podcast detail"} picture`}</span>
-        className="place-self-center"
-      /&gt;
-      &lt;div className="mt-5 mb-2 border-b place-self-center border-gray-300 w-[80%]" /&gt;
-      &lt;p className="mx-6 font-bold"&gt;{podcast?.title.label}&lt;/p&gt;
-      &lt;p className="mx-6 italic"&gt;{podcast?.["im:artist"].label}&lt;/p&gt;
-      &lt;div className="my-3 place-self-center border-b border-gray-300 w-[80%]" /&gt;
-      &lt;p className="mx-6 text-sm font-bold"&gt;Description:&lt;/p&gt;
-      &lt;p className="mx-6 mb-5 text-sm text-justify"&gt;{podcast?.summary.label}&lt;/p&gt;
-    &lt;/div&gt;
-  );
+  const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+    "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
+  )}`;
+&nbsp;
+  const getFetch = async () =&gt; {
+    const resp = await fetch(url);
+    const data = await resp.json();
+&nbsp;
+    dispatch({ type: ENUMS.SET_PODCASTS, payload: data });
+    setLocalStorage("podcasts", data, 86400000);
+  };
+&nbsp;
+  useEffect(() =&gt; {
+    try {
+      if (getLocalStorage("podcasts")) {
+        dispatch({
+          type: ENUMS.SET_PODCASTS,
+          payload: getLocalStorage("podcasts"),
+        });
+      } else {
+        getFetch();
+        console.log(state.podcasts);
+      }
+<span class="branch-0 cbranch-no" title="branch not covered" >    } catch (e) {</span>
+<span class="cstat-no" title="statement not covered" >      dispatch({</span>
+<span class="cstat-no" title="statement not covered" >        type: ENUMS.SET_ERROR,</span>
+<span class="cstat-no" title="statement not covered" >        payload: e,</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" >      console.log(e);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+  }, [url]);
+  return {
+    podcastsData: state.podcasts,
+    loadingPodcasts: state.loadingPodcasts,
+    errorPodcasts: state.error,
+  };
 };
 &nbsp;</pre></td></tr></table></pre>
 

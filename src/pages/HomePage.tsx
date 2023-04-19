@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
-import { getLocalStorage, setLocalStorage } from "../utils/localStorage";
+import { useState } from "react";
 import { Podcast } from "../components/Podcast";
-import { awesomeReducer } from "../hooks/awesomeReducer";
-import { useFetch } from "../hooks/useFetch";
+import { useFetchPodcasts } from "../hooks/useFetchPodcasts";
 
 type Props = {
   "im:image": {
@@ -22,7 +20,6 @@ type Props = {
 }[];
 
 export const HomePage = () => {
-  const { ENUMS, dispatch, state } = awesomeReducer();
   const [query, setQuery] = useState("");
 
   const search = (podcasts: Props) => {
@@ -33,46 +30,19 @@ export const HomePage = () => {
     );
   };
 
-  const { data: podcastData, setShouldFetch } = useFetch(
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(
-      "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json",
-    )}`,
-  );
+  const { podcastsData, loadingPodcasts, errorPodcasts } = useFetchPodcasts();
 
-  useEffect(() => {
-    try {
-      if (getLocalStorage("podcasts")) {
-        dispatch({
-          type: ENUMS.SET_PODCASTS,
-          payload: getLocalStorage("podcasts"),
-        });
-      } else {
-        setShouldFetch(true);
-        podcastData &&
-          (dispatch({ type: ENUMS.SET_PODCASTS, payload: podcastData }),
-          setLocalStorage("podcasts", podcastData, 86400000));
-      }
-    } catch (e) {
-      dispatch({
-        type: ENUMS.SET_ERROR,
-        payload: e,
-      });
-      console.log(e);
-    }
-  }, [podcastData]);
-
-  if (state.loadingPodcasts) {
+  if (loadingPodcasts) {
     return <div className="grid text-5xl place-items-center">LOADING...</div>;
   }
-  if (state.error) {
+  if (errorPodcasts) {
     return <div className="grid text-5xl place-items-center">ERROR</div>;
   }
-
   return (
     <section>
       <div className="flex justify-end gap-3 pt-5 pr-5 flex-nowrap">
         <div className="p-2 text-3xl text-white bg-blue-400 rounded-xl">
-          {state.podcasts?.feed?.entry.length}
+          {podcastsData?.feed?.entry.length}
         </div>
         <input
           type="search"
@@ -84,7 +54,7 @@ export const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-4 gap-10 mx-10 mt-60 place-items-center">
-        {search(state.podcasts?.feed?.entry)?.map((podcasts, idx) => (
+        {search(podcastsData?.feed?.entry)?.map((podcasts, idx) => (
           <Podcast key={idx} podcasts={podcasts} />
         ))}
       </div>
