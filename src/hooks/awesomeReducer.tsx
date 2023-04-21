@@ -1,6 +1,8 @@
 import { useReducer } from "react";
 
 export const awesomeReducer = () => {
+  type Action = { type: ENUMS; payload: any };
+
   enum ENUMS {
     SET_PODCASTS = "SET_PODCASTS",
     SET_EPISODES = "SET_EPISODES",
@@ -15,7 +17,7 @@ export const awesomeReducer = () => {
     loadingEpisodes: true,
   };
 
-  const reducer = (state: any, action: { type: any; payload: any }) => {
+  const reducer = (state: typeof initialState, action: Action) => {
     switch (action.type) {
       case ENUMS.SET_PODCASTS:
         return { ...state, podcasts: action.payload, loadingPodcasts: false };
