@@ -1,7 +1,7 @@
 # Podcaster APP
 > INDITEX project
 
-![](https://github.com/alvaro17f/podcaster/blob/main/public/podcaster.gif)
+![](public/podcaster.gif)
 
 :star: Star me up!
 
