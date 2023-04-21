@@ -26,7 +26,6 @@ export const useFetchPodcasts = () => {
         });
       } else {
         getFetch();
-        console.log(state.podcasts);
       }
     } catch (e) {
       dispatch({

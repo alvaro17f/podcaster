@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Podcast } from "../components/Podcast";
 import { useFetchPodcasts } from "../hooks/useFetchPodcasts";
 
@@ -20,6 +20,7 @@ type Props = {
 }[];
 
 export const HomePage = () => {
+  const uuid = useId();
   const [query, setQuery] = useState("");
 
   const search = (podcasts: Props) => {
@@ -55,7 +56,7 @@ export const HomePage = () => {
 
       <div className="grid grid-cols-4 gap-10 mx-10 mt-60 place-items-center">
         {search(podcastsData?.feed?.entry)?.map((podcasts, idx) => (
-          <Podcast key={idx} podcasts={podcasts} />
+          <Podcast key={`${uuid}-${idx}`} podcasts={podcasts} />
         ))}
       </div>
     </section>
